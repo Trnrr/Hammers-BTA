@@ -27,9 +27,8 @@ public class ItemToolExcavator extends ItemTool {
 		return block.hasTag(BlockTags.MINEABLE_BY_SHOVEL);
 	}
 
-	@Override
-	public boolean onBlockDestroyed(ItemStack itemstack, int i, int j, int k, int l, EntityLiving entityliving) {
-		super.onBlockDestroyed(itemstack, i, j, k, l, entityliving);
+	public boolean onBlockDestroyed(World world, ItemStack itemstack, int i, int j, int k, int l, EntityLiving entityliving) {
+		super.onBlockDestroyed(world, itemstack, i, j, k, l, entityliving);
 		int x = j;
 		int y = k;
 		int z = l;
