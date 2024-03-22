@@ -13,6 +13,7 @@ import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
+import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.material.ToolMaterial;
 import net.minecraft.core.item.tool.ItemTool;
@@ -54,6 +55,14 @@ public class ItemToolHammer extends ItemTool {
 		int x = j;
 		int y = k;
 		int z = l;
+		boolean silkTouch = false;
+
+		ItemStack heldItemStack = entityliving.getHeldItem();
+		Item heldItem = heldItemStack != null ? Item.itemsList[heldItemStack.itemID] : null;
+
+		if (heldItem != null && heldItem.isSilkTouch()) {
+			silkTouch = true;
+		}
 
 		float xRot = entityliving.xRot % 360;
 		float yRot = Math.abs(entityliving.yRot % 360);
@@ -61,55 +70,55 @@ public class ItemToolHammer extends ItemTool {
 		// Up/Down
 		if (xRot < -40.0 || xRot > 40.0)
 		{
-			MineBlock(x,y,z+1,entityliving.world);
-			MineBlock(x,y,z-1,entityliving.world);
+			MineBlock(x,y,z+1,entityliving.world,silkTouch);
+			MineBlock(x,y,z-1,entityliving.world,silkTouch);
 
-			MineBlock(x+1,y,z+1,entityliving.world);
-			MineBlock(x+1,y,z,entityliving.world);
-			MineBlock(x+1,y,z-1,entityliving.world);
+			MineBlock(x+1,y,z+1,entityliving.world,silkTouch);
+			MineBlock(x+1,y,z,entityliving.world,silkTouch);
+			MineBlock(x+1,y,z-1,entityliving.world,silkTouch);
 
-			MineBlock(x-1,y,z+1,entityliving.world);
-			MineBlock(x-1,y,z,entityliving.world);
-			MineBlock(x-1,y,z-1,entityliving.world);
+			MineBlock(x-1,y,z+1,entityliving.world,silkTouch);
+			MineBlock(x-1,y,z,entityliving.world,silkTouch);
+			MineBlock(x-1,y,z-1,entityliving.world,silkTouch);
 		}
 
 		// North/South
 		else if ((yRot >= 315 || (yRot >= 0 && yRot<= 45)) || yRot <= 225 && yRot >= 135)
 		{
-			MineBlock(x,y+1,z,entityliving.world);
-			MineBlock(x,y-1,z,entityliving.world);
+			MineBlock(x,y+1,z,entityliving.world,silkTouch);
+			MineBlock(x,y-1,z,entityliving.world,silkTouch);
 
-			MineBlock(x-1,y+1,z,entityliving.world);
-			MineBlock(x-1,y,z,entityliving.world);
-			MineBlock(x-1,y-1,z,entityliving.world);
+			MineBlock(x-1,y+1,z,entityliving.world,silkTouch);
+			MineBlock(x-1,y,z,entityliving.world,silkTouch);
+			MineBlock(x-1,y-1,z,entityliving.world,silkTouch);
 
-			MineBlock(x+1,y+1,z,entityliving.world);
-			MineBlock(x+1,y,z,entityliving.world);
-			MineBlock(x+1,y-1,z,entityliving.world);
+			MineBlock(x+1,y+1,z,entityliving.world,silkTouch);
+			MineBlock(x+1,y,z,entityliving.world,silkTouch);
+			MineBlock(x+1,y-1,z,entityliving.world,silkTouch);
 		}
 
 		// East/West
 		else if ((yRot >= 45 && yRot <= 135) || (yRot >= 225 && yRot <= 315))
 		{
-			MineBlock(x,y+1,z,entityliving.world);
-			MineBlock(x,y-1,z,entityliving.world);
+			MineBlock(x,y+1,z,entityliving.world,silkTouch);
+			MineBlock(x,y-1,z,entityliving.world,silkTouch);
 
-			MineBlock(x,y+1,z+1,entityliving.world);
-			MineBlock(x,y,z+1,entityliving.world);
-			MineBlock(x,y-1,z+1,entityliving.world);
+			MineBlock(x,y+1,z+1,entityliving.world,silkTouch);
+			MineBlock(x,y,z+1,entityliving.world,silkTouch);
+			MineBlock(x,y-1,z+1,entityliving.world,silkTouch);
 
-			MineBlock(x,y+1,z-1,entityliving.world);
-			MineBlock(x,y,z-1,entityliving.world);
-			MineBlock(x,y-1,z-1,entityliving.world);
+			MineBlock(x,y+1,z-1,entityliving.world,silkTouch);
+			MineBlock(x,y,z-1,entityliving.world,silkTouch);
+			MineBlock(x,y-1,z-1,entityliving.world,silkTouch);
 		}
 
 		return true;
 	}
 
-	protected void MineBlock(int x, int y, int z, World world) {
+	protected void MineBlock(int x, int y, int z, World world, boolean silkTouch) {
 		if (world.getBlock(x, y, z) != null) {
 			if (world.getBlock(x,y,z).id != Block.bedrock.id) {
-				ItemStack[] item = world.getBlock(x, y, z).getBreakResult(world, EnumDropCause.PROPER_TOOL, x, y, z, world.getBlockMetadata(x, y, z), world.getBlockTileEntity(x, y, z));
+				ItemStack[] item = world.getBlock(x, y, z).getBreakResult(world, (silkTouch ? EnumDropCause.SILK_TOUCH : EnumDropCause.PROPER_TOOL), x, y, z, world.getBlockMetadata(x, y, z), world.getBlockTileEntity(x, y, z));
 				world.setBlockWithNotify(x, y, z, 0);
 				if (item != null) {
 					for (ItemStack itemStack : item) {
