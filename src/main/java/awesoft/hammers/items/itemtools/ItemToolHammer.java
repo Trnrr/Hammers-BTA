@@ -118,12 +118,14 @@ public class ItemToolHammer extends ItemTool {
 	protected void MineBlock(int x, int y, int z, World world, boolean silkTouch) {
 		if (world.getBlock(x, y, z) != null) {
 			if (world.getBlock(x,y,z).id != Block.bedrock.id) {
-				ItemStack[] item = world.getBlock(x, y, z).getBreakResult(world, (silkTouch ? EnumDropCause.SILK_TOUCH : EnumDropCause.PROPER_TOOL), x, y, z, world.getBlockMetadata(x, y, z), world.getBlockTileEntity(x, y, z));
-				world.setBlockWithNotify(x, y, z, 0);
-				if (item != null) {
-					for (ItemStack itemStack : item) {
-						if (itemStack != null) {
-							world.dropItem(x, y, z, itemStack);
+				if (canHarvestBlock(world.getBlock(x, y, z))) {
+					ItemStack[] item = world.getBlock(x, y, z).getBreakResult(world, (silkTouch ? EnumDropCause.SILK_TOUCH : EnumDropCause.PROPER_TOOL), x, y, z, world.getBlockMetadata(x, y, z), world.getBlockTileEntity(x, y, z));
+					world.setBlockWithNotify(x, y, z, 0);
+					if (item != null) {
+						for (ItemStack itemStack : item) {
+							if (itemStack != null) {
+								world.dropItem(x, y, z, itemStack);
+							}
 						}
 					}
 				}
