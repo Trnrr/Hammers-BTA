@@ -33,40 +33,45 @@ public class ItemToolExcavator extends ItemTool {
 		int y = k;
 		int z = l;
 
+		float xRot = entityliving.xRot % 360;
+		float yRot = Math.abs(entityliving.yRot % 360);
 
-		MineBlock(x+1,y,z+1,entityliving.world);
-		MineBlock(x+1,y,z,entityliving.world);
-		MineBlock(x+1,y,z-1,entityliving.world);
+		// Up/Down
+		if (xRot < -40.0 || xRot > 40.0)
+		{
+			MineBlock(x,y,z+1,entityliving.world);
+			MineBlock(x,y,z-1,entityliving.world);
 
-		MineBlock(x,y,z+1,entityliving.world);
-		MineBlock(x,y,z,entityliving.world);
-		MineBlock(x,y,z-1,entityliving.world);
-
-		MineBlock(x-1,y,z+1,entityliving.world);
-		MineBlock(x-1,y,z,entityliving.world);
-		MineBlock(x-1,y,z-1,entityliving.world);
-/*
-		//x
-		if (yRot < 225 && yRot > 135) {
-			MineBlock(x+1,y+1,z,entityliving.world);
+			MineBlock(x+1,y,z+1,entityliving.world);
 			MineBlock(x+1,y,z,entityliving.world);
-			MineBlock(x+1,y-1,z,entityliving.world);
+			MineBlock(x+1,y,z-1,entityliving.world);
+
+			MineBlock(x-1,y,z+1,entityliving.world);
+			MineBlock(x-1,y,z,entityliving.world);
+			MineBlock(x-1,y,z-1,entityliving.world);
+		}
+
+		// North/South
+		else if ((yRot >= 315 || (yRot >= 0 && yRot<= 45)) || yRot <= 225 && yRot >= 135)
+		{
+			MineBlock(x,y+1,z,entityliving.world);
+			MineBlock(x,y-1,z,entityliving.world);
 
 			MineBlock(x-1,y+1,z,entityliving.world);
 			MineBlock(x-1,y,z,entityliving.world);
 			MineBlock(x-1,y-1,z,entityliving.world);
-		}
-		else if (yRot > 315 || yRot < 45) {
+
 			MineBlock(x+1,y+1,z,entityliving.world);
 			MineBlock(x+1,y,z,entityliving.world);
 			MineBlock(x+1,y-1,z,entityliving.world);
-
-			MineBlock(x-1,y+1,z,entityliving.world);
-			MineBlock(x-1,y,z,entityliving.world);
-			MineBlock(x-1,y-1,z,entityliving.world);
 		}
-		//y
-		else if (yRot > 45 && yRot < 135) {
+
+		// East/West
+		else if ((yRot >= 45 && yRot <= 135) || (yRot >= 225 && yRot <= 315))
+		{
+			MineBlock(x,y+1,z,entityliving.world);
+			MineBlock(x,y-1,z,entityliving.world);
+
 			MineBlock(x,y+1,z+1,entityliving.world);
 			MineBlock(x,y,z+1,entityliving.world);
 			MineBlock(x,y-1,z+1,entityliving.world);
@@ -75,29 +80,6 @@ public class ItemToolExcavator extends ItemTool {
 			MineBlock(x,y,z-1,entityliving.world);
 			MineBlock(x,y-1,z-1,entityliving.world);
 		}
-		else if (yRot > 225 && yRot < 315) {
-			MineBlock(x,y+1,z+1,entityliving.world);
-			MineBlock(x,y,z+1,entityliving.world);
-			MineBlock(x,y-1,z+1,entityliving.world);
-
-			MineBlock(x,y+1,z-1,entityliving.world);
-			MineBlock(x,y,z-1,entityliving.world);
-			MineBlock(x,y-1,z-1,entityliving.world);
-		}
-
-
-
-
-		//x
-		//135 - 225
-		//315 - 45
-
-		//z
-		//46 - 134
-		//224 - 314
-*/
-
-
 
 		return true;
 	}
