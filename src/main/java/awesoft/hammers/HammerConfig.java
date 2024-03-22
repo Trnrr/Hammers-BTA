@@ -10,6 +10,9 @@ public class HammerConfig {
 	private static final Toml properties = new Toml("Hammers's TOML Config");
 	public static TomlConfigHandler cfg;
 	static {
+		properties.addCategory("Tool Config")
+			.addEntry("DontBreakWhenSneaking", true);
+
 		properties.addCategory("Item IDs")
 			.addEntry("WoodenHammer", 32006)
 			.addEntry("StoneHammer", 32007)

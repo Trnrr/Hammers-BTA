@@ -8,6 +8,8 @@ package awesoft.hammers.items.itemtools;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Map;
+
+import awesoft.hammers.HammerConfig;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.entity.EntityLiving;
@@ -57,12 +59,13 @@ public class ItemToolHammer extends ItemTool {
 		int z = l;
 		boolean silkTouch = false;
 
+		// Only break single block if sneaking
+		if (HammerConfig.cfg.getBoolean("Tool Config.DontBreakWhenSneaking") && entityliving.isSneaking()) { return true; }
+
 		ItemStack heldItemStack = entityliving.getHeldItem();
 		Item heldItem = heldItemStack != null ? Item.itemsList[heldItemStack.itemID] : null;
 
-		if (heldItem != null && heldItem.isSilkTouch()) {
-			silkTouch = true;
-		}
+		if (heldItem != null && heldItem.isSilkTouch()) { silkTouch = true; }
 
 		float xRot = entityliving.xRot % 360;
 		float yRot = Math.abs(entityliving.yRot % 360);

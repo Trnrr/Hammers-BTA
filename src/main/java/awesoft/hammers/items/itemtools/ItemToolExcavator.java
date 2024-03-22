@@ -5,6 +5,7 @@
 
 package awesoft.hammers.items.itemtools;
 
+import awesoft.hammers.HammerConfig;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.entity.EntityLiving;
@@ -34,6 +35,9 @@ public class ItemToolExcavator extends ItemTool {
 		int y = k;
 		int z = l;
 		boolean silkTouch = false;
+
+		// Only break single block if sneaking
+		if (HammerConfig.cfg.getBoolean("Tool Config.DontBreakWhenSneaking") && entityliving.isSneaking()) { return true; }
 
 		ItemStack heldItemStack = entityliving.getHeldItem();
 		Item heldItem = heldItemStack != null ? Item.itemsList[heldItemStack.itemID] : null;
