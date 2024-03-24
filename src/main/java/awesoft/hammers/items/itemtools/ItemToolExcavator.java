@@ -42,9 +42,7 @@ public class ItemToolExcavator extends ItemTool {
 		ItemStack heldItemStack = entityliving.getHeldItem();
 		Item heldItem = heldItemStack != null ? Item.itemsList[heldItemStack.itemID] : null;
 
-		if (heldItem != null && heldItem.isSilkTouch()) {
-			silkTouch = true;
-		}
+		if (heldItem != null && heldItem.isSilkTouch()) { silkTouch = true;	}
 
 		float xRot = entityliving.xRot % 360;
 		float yRot = Math.abs(entityliving.yRot % 360);
